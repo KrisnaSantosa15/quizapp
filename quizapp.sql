@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1deb1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 30, 2024 at 09:57 AM
--- Server version: 8.0.34
--- PHP Version: 8.2.2
+-- Generation Time: May 30, 2024 at 04:19 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,10 +55,9 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`id`, `quizId`, `question`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`) VALUES
-(1, 9, '1+1', '44', '23', '2', '1', 'C'),
-(3, 1, 'a', 's', 'v', 'ssd', 'wer', 'A'),
-(4, 1, 'are you ready?', 'ready', 'no', 'yes', 'maybe', 'A'),
-(5, 3, 'ini ipa', 'oke', 'sip', 'ipa', 'tes', 'C');
+(5, 3, 'ini ipa', 'oke', 'sip', 'ipa', 'tes', 'C'),
+(6, 3, 'dada', 'dada', 'da', 'efefe', 'fe', 'A'),
+(7, 3, 'sadafa', 'fafa', 'faa', 'asa', 'da', 'A');
 
 -- --------------------------------------------------------
 
@@ -77,8 +76,6 @@ CREATE TABLE `quizes` (
 --
 
 INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
-(1, 'Matematika', 'Ini Matematika Kelas 12'),
-(2, 'Bahasa Inggris', 'Ini adalah kuis untuk kelas bahasa inggris'),
 (3, 'IPA', 'Ini adalah ilmu tentang alam'),
 (7, '1', '1'),
 (8, '2', '2'),
@@ -87,7 +84,9 @@ INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
 (11, '1', '1'),
 (12, '12', '12'),
 (13, '22', '22'),
-(14, '44', '44');
+(14, '44', '44'),
+(15, 's', 'dada'),
+(16, 'sd', 'adada');
 
 -- --------------------------------------------------------
 
@@ -144,6 +143,19 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `role` enum('student','teacher') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
+(2, 'sasa', 'zxa', 'student'),
+(5, 'username', 'pasword', 'teacher'),
+(6, '1', '2', 'student'),
+(7, 'w', 'w', 'student'),
+(8, '2', '3', 'teacher'),
+(10, '4', '2', 'student'),
+(11, '40', '2', 'student');
 
 --
 -- Indexes for dumped tables
@@ -206,13 +218,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `quizes`
 --
 ALTER TABLE `quizes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `students`
@@ -236,7 +248,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
