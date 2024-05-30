@@ -2,8 +2,9 @@ package com.raven.form;
 
 import com.raven.db.db_connection;
 import java.sql.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import net.proteanit.sql.DbUtils;
+import com.raven.swing.ComboItem;
 
 public class Form_Questions extends javax.swing.JPanel {
 
@@ -15,10 +16,9 @@ public class Form_Questions extends javax.swing.JPanel {
     PreparedStatement pst;
     ResultSet rs;
     
-    public void loadAllData() {
+     public void loadAllData() {
         try {
             Connection C = db_connection.ConfigureDatabase();
-            // Memuat data dari tabel quizes
             Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             Statement stmt = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet result = statement.executeQuery("SELECT * FROM questions");
@@ -31,14 +31,18 @@ public class Form_Questions extends javax.swing.JPanel {
             result.beforeFirst(); // Pindahkan cursor ke sebelum baris pertama
             inputId.removeAllItems();
             while (result.next()) {
-                inputId.addItem(result.getString("id"));
+                String id = result.getString("id");
+                String name = result.getString("id"); // Assuming there is a 'name' column
+                inputId.addItem(new ComboItem(id, name));
             }
-            
-            // Mengisi inputId dengan id dari resultSet yang sama
+
+            // Mengisi inputQuizId dengan id dari resultSet yang sama
             resultQuiz.beforeFirst(); // Pindahkan cursor ke sebelum baris pertama
             inputQuizId.removeAllItems();
             while (resultQuiz.next()) {
-                inputQuizId.addItem(resultQuiz.getString("id"));
+                String id = resultQuiz.getString("id");
+                String name = resultQuiz.getString("name"); // Assuming there is a 'name' column
+                inputQuizId.addItem(new ComboItem(id, name));
             }
 
         } catch (Exception e) {
@@ -122,7 +126,6 @@ public class Form_Questions extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(127, 127, 127));
         jLabel2.setText("Quiz Name");
 
-        inputQuizId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         inputQuizId.setPreferredSize(new java.awt.Dimension(450, 25));
         inputQuizId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +183,6 @@ public class Form_Questions extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(127, 127, 127));
         jLabel9.setText("Id");
 
-        inputId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         inputId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputIdActionPerformed(evt);
@@ -370,7 +372,7 @@ public class Form_Questions extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Correct Answer is Required!");
     } else {
         // Add new Question
-            String quizId = inputQuizId.getSelectedItem().toString();
+            String quizId = ComboItem.getSelectedId(inputQuizId);
             String question = inputQuestion.getText();
             String optionA = inputOptionA.getText();
             String optionB = inputOptionB.getText();
@@ -427,8 +429,8 @@ public class Form_Questions extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Correct Answer is Required!");
         } else {
             // Retrieve Input Values
-            String questionId = inputId.getSelectedItem().toString(); // Assuming you have an inputId JComboBox or similar
-            String quizId = inputQuizId.getSelectedItem().toString();
+            String questionId = ComboItem.getSelectedId(inputId); // Assuming you have an inputId JComboBox or similar
+            String quizId = ComboItem.getSelectedId(inputQuizId);
             String question = inputQuestion.getText();
             String optionA = inputOptionA.getText();
             String optionB = inputOptionB.getText();
@@ -480,14 +482,16 @@ public class Form_Questions extends javax.swing.JPanel {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         // Get Data By Id:
-        String quizId = inputId.getSelectedItem().toString();
+        String questionId = ComboItem.getSelectedId(inputId);
         try {
             Connection C = db_connection.ConfigureDatabase();
             pst = C.prepareStatement("SELECT * FROM questions WHERE id=?");
-            pst.setString(1, quizId);
+            pst.setString(1, questionId);
             rs = pst.executeQuery();
             
             if(rs.next()){
+                ComboItem.setComboBoxSelectedItem(inputId, questionId);
+                ComboItem.setComboBoxSelectedItem(inputQuizId, rs.getString("quizId"));
                 inputQuestion.setText(rs.getString("question"));
                 inputOptionA.setText(rs.getString("option_a"));
                 inputOptionB.setText(rs.getString("option_b"));
@@ -503,7 +507,7 @@ public class Form_Questions extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        String questionId = inputId.getSelectedItem().toString();
+        String questionId = ComboItem.getSelectedId(inputId);
         
         // Tampilkan dialog konfirmasi
         int response = JOptionPane.showConfirmDialog(null, "Are you sure to delete this data?", "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -536,6 +540,8 @@ public class Form_Questions extends javax.swing.JPanel {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
+        ComboItem.setComboBoxSelectedItem(inputId, "");
+        ComboItem.setComboBoxSelectedItem(inputQuizId, "");
         inputQuestion.setText("");
         inputOptionA.setText("");
         inputOptionB.setText("");
@@ -553,13 +559,13 @@ public class Form_Questions extends javax.swing.JPanel {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField inputCorrectAnswer;
-    private javax.swing.JComboBox<String> inputId;
+    private javax.swing.JComboBox<ComboItem> inputId;
     private javax.swing.JTextField inputOptionA;
     private javax.swing.JTextField inputOptionB;
     private javax.swing.JTextField inputOptionC;
     private javax.swing.JTextField inputOptionD;
     private javax.swing.JTextField inputQuestion;
-    private javax.swing.JComboBox<String> inputQuizId;
+    private javax.swing.JComboBox<ComboItem> inputQuizId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

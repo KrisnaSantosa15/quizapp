@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 29, 2024 at 05:45 PM
+-- Generation Time: May 30, 2024 at 09:57 AM
 -- Server version: 8.0.34
 -- PHP Version: 8.2.2
 
@@ -56,7 +56,9 @@ CREATE TABLE `questions` (
 
 INSERT INTO `questions` (`id`, `quizId`, `question`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`) VALUES
 (1, 9, '1+1', '44', '23', '2', '1', 'C'),
-(3, 1, 'a', 's', 'v', 'ssd', 'wer', 'A');
+(3, 1, 'a', 's', 'v', 'ssd', 'wer', 'A'),
+(4, 1, 'are you ready?', 'ready', 'no', 'yes', 'maybe', 'A'),
+(5, 3, 'ini ipa', 'oke', 'sip', 'ipa', 'tes', 'C');
 
 -- --------------------------------------------------------
 
@@ -204,7 +206,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `quizes`
