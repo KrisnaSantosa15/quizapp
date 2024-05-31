@@ -2,10 +2,11 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 30, 2024 at 04:19 PM
--- Server version: 8.0.30
--- PHP Version: 8.3.6
+
+-- Host: 127.0.0.1
+-- Generation Time: May 31, 2024 at 02:52 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +29,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `feedback` (
-  `teacherId` int NOT NULL,
-  `studentId` int NOT NULL,
+  `teacherId` int(11) NOT NULL,
+  `studentId` int(11) NOT NULL,
   `feedback` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -40,24 +41,26 @@ CREATE TABLE `feedback` (
 --
 
 CREATE TABLE `questions` (
-  `id` int NOT NULL,
-  `quizId` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `quizId` int(11) NOT NULL,
   `question` text NOT NULL,
   `option_a` varchar(255) NOT NULL,
   `option_b` varchar(255) NOT NULL,
   `option_c` varchar(255) NOT NULL,
   `option_d` varchar(255) NOT NULL,
   `correct_answer` enum('A','B','C','D') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `questions`
 --
 
 INSERT INTO `questions` (`id`, `quizId`, `question`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`) VALUES
+(1, 9, '1+1', '44', '23', '2', '1', 'C'),
+(3, 1, 'a', 's', 'v', 'ssd', 'wer', 'A'),
+(4, 1, 'are you ready?', 'ready', 'no', 'yes', 'maybe', 'A'),
 (5, 3, 'ini ipa', 'oke', 'sip', 'ipa', 'tes', 'C'),
-(6, 3, 'dada', 'dada', 'da', 'efefe', 'fe', 'A'),
-(7, 3, 'sadafa', 'fafa', 'faa', 'asa', 'da', 'A');
+(6, 1, 'test', 'satu', 'tiga', 'dua', 'empat', 'A');
 
 -- --------------------------------------------------------
 
@@ -66,10 +69,10 @@ INSERT INTO `questions` (`id`, `quizId`, `question`, `option_a`, `option_b`, `op
 --
 
 CREATE TABLE `quizes` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `quizes`
@@ -95,13 +98,22 @@ INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
 --
 
 CREATE TABLE `students` (
-  `id` int NOT NULL,
-  `userId` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `enrollmentYear` varchar(25) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `gender` enum('laki-laki','perempuan') NOT NULL,
+  `gender` varchar(25) NOT NULL,
   `contact` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `userId`, `name`, `enrollmentYear`, `address`, `gender`, `contact`) VALUES
+(1, 1, 'Rifdah', '2021', 'Jl. Baru', 'Female', '123'),
+(14, 4, 'murid 4', '2021', 'di mana', 'Male', '123');
 
 -- --------------------------------------------------------
 
@@ -110,11 +122,11 @@ CREATE TABLE `students` (
 --
 
 CREATE TABLE `student_result` (
-  `id` int NOT NULL,
-  `studentId` int NOT NULL,
-  `quizId` int NOT NULL,
-  `marks` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int(11) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `quizId` int(11) NOT NULL,
+  `marks` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -123,13 +135,13 @@ CREATE TABLE `student_result` (
 --
 
 CREATE TABLE `teachers` (
-  `id` int NOT NULL,
-  `userId` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `gender` enum('male','female','other') NOT NULL,
   `contact` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -138,11 +150,21 @@ CREATE TABLE `teachers` (
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('student','teacher') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
+(1, 'student', 'student123', 'student'),
+(2, 'guru', 'guru123', 'teacher'),
+(3, 'murid2', 'murid123', 'student'),
+(4, 'rifdahhr', 'passwordrifdah', 'student');
 
 --
 -- Dumping data for table `users`
@@ -230,19 +252,19 @@ ALTER TABLE `quizes`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `student_result`
 --
 ALTER TABLE `student_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
