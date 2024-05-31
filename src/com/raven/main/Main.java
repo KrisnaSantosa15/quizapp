@@ -13,6 +13,7 @@ import com.raven.form.Form_Quizes;
 import com.raven.form.Form_Questions;
 import com.raven.form.Form_Home;
 import com.raven.form.Form_Users;
+import com.raven.form.Form_Feedback;
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -32,6 +33,7 @@ public class Main extends javax.swing.JFrame {
     private Form_Users formusers;
     private Form_Quizes formQuizes;
     private Form_Questions formQuestions;
+    private Form_Feedback formFeedback;
 
     public Main() {
         initComponents();
@@ -42,6 +44,7 @@ public class Main extends javax.swing.JFrame {
         form3 = new Form_3();
         formQuizes = new Form_Quizes();
         formQuestions = new Form_Questions();
+        formFeedback= new Form_Feedback();
         
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
