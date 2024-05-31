@@ -2,6 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+
 -- Host: 127.0.0.1
 -- Generation Time: May 31, 2024 at 02:52 AM
 -- Server version: 10.4.32-MariaDB
@@ -78,8 +79,6 @@ CREATE TABLE `quizes` (
 --
 
 INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
-(1, 'Matematika', 'Ini Matematika Kelas 12'),
-(2, 'Bahasa Inggris', 'Ini adalah kuis untuk kelas bahasa inggris'),
 (3, 'IPA', 'Ini adalah ilmu tentang alam'),
 (7, '1', '1'),
 (8, '2', '2'),
@@ -88,7 +87,9 @@ INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
 (11, '1', '1'),
 (12, '12', '12'),
 (13, '22', '22'),
-(14, '44', '44');
+(14, '44', '44'),
+(15, 's', 'dada'),
+(16, 'sd', 'adada');
 
 -- --------------------------------------------------------
 
@@ -166,6 +167,19 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
 (4, 'rifdahhr', 'passwordrifdah', 'student');
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
+(2, 'sasa', 'zxa', 'student'),
+(5, 'username', 'pasword', 'teacher'),
+(6, '1', '2', 'student'),
+(7, 'w', 'w', 'student'),
+(8, '2', '3', 'teacher'),
+(10, '4', '2', 'student'),
+(11, '40', '2', 'student');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -226,13 +240,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `quizes`
 --
 ALTER TABLE `quizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `students`
@@ -256,7 +270,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
