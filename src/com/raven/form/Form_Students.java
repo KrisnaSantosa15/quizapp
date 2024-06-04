@@ -20,12 +20,12 @@ import net.proteanit.sql.DbUtils;
  *
  * @author RAVEN
  */
-public class Form_3 extends javax.swing.JPanel {
+public class Form_Students extends javax.swing.JPanel {
 
     /**
      * Creates new form Form_1
      */
-    public Form_3() {
+    public Form_Students() {
         initComponents();
         loadAllData();
     }
@@ -40,7 +40,7 @@ public class Form_3 extends javax.swing.JPanel {
              Statement stmt = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             
             ResultSet result = statement.executeQuery("SELECT * FROM students");
-            ResultSet resultUser = stmt.executeQuery("SELECT * FROM users");
+            ResultSet resultUser = stmt.executeQuery("SELECT * FROM users WHERE role='student' AND id NOT IN (SELECT userId FROM students)");
             // mengisi tabelStudents dengan data
             tableStudents.setModel(DbUtils.resultSetToTableModel(result));
             
@@ -56,7 +56,7 @@ public class Form_3 extends javax.swing.JPanel {
             inputUserId.removeAllItems();
             while (resultUser.next()) {
                 String id = resultUser.getString("id");
-                String name = resultUser.getString("id"); // Assuming there is a 'name' column
+                String name = resultUser.getString("username"); // Assuming there is a 'name' column
                 inputUserId.addItem(new ComboItem(id, name));
             }
 
@@ -92,6 +92,7 @@ public class Form_3 extends javax.swing.JPanel {
         inputFemale = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         inputAddress = new javax.swing.JTextArea();
+        btnAdd1 = new javax.swing.JButton();
 
         inputName.setPreferredSize(new java.awt.Dimension(450, 25));
         inputName.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +188,7 @@ public class Form_3 extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel6.setText("User ID");
+        jLabel6.setText("Username");
 
         inputUserId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,12 +201,20 @@ public class Form_3 extends javax.swing.JPanel {
         inputMale.setText("Male");
 
         btnGroupGender.add(inputFemale);
-        inputFemale.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        inputFemale.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         inputFemale.setText("Female");
 
         inputAddress.setColumns(20);
         inputAddress.setRows(5);
         jScrollPane1.setViewportView(inputAddress);
+
+        btnAdd1.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnAdd1.setText("Refresh");
+        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdd1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -213,52 +222,48 @@ public class Form_3 extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6))
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(inputContact, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(inputEnrollmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addContainerGap(332, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(inputUserId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addContainerGap(332, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(inputMale)
-                                .addGap(57, 57, 57)
-                                .addComponent(inputFemale))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addGap(42, 42, 42)
+                                .addGap(42, 42, 42))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(64, Short.MAX_VALUE))))
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6))
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inputEnrollmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputUserId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(inputMale)
+                                        .addGap(57, 57, 57)
+                                        .addComponent(inputFemale))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputContact, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(164, 164, 164)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,9 +286,9 @@ public class Form_3 extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -291,8 +296,10 @@ public class Form_3 extends javax.swing.JPanel {
                         .addComponent(inputFemale)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputContact, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2))
+                    .addComponent(inputContact, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -305,7 +312,8 @@ public class Form_3 extends javax.swing.JPanel {
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(203, 203, 203))
@@ -317,26 +325,34 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_inputNameActionPerformed
 
     // Method to check if userId already exists in the database
-private boolean checkUserIdExists(String userId) {
+private boolean checkUserIdExists(String userId, String studentId) {
     Connection connection = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
     boolean userIdExists = false;
     
     try {
-        connection = db_connection.ConfigureDatabase(); // Get database connection
-        pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM students WHERE userId = ?");
-        pst.setString(1, userId);
+        connection = db_connection.ConfigureDatabase();
+        
+        // Conditionally adjust the query based on whether studentId is provided
+        if (studentId == null) {
+            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM students WHERE userId = ?");
+            pst.setString(1, userId);
+        } else {
+            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM students WHERE userId = ? AND id != ?");
+            pst.setString(1, userId);
+            pst.setString(2, studentId);
+        }
+        
         rs = pst.executeQuery();
         
         if (rs.next()) {
             int count = rs.getInt("count");
-            userIdExists = (count > 0); // Set userIdExists to true if count > 0
+            userIdExists = (count > 0);
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage());
     } finally {
-        // Close resources in finally block to ensure they are always closed
         try {
             if (rs != null) rs.close();
             if (pst != null) pst.close();
@@ -356,7 +372,7 @@ private boolean checkUserIdExists(String userId) {
         // validasi user id tidak boleh dipake dua kali
         String userId = ComboItem.getSelectedId(inputUserId);
         // Check if user ID already exists in the database
-        boolean userIdExist = checkUserIdExists(userId);
+        boolean userIdExist = checkUserIdExists(userId, null);
         if (userIdExist) {
             JOptionPane.showMessageDialog(null, "User ID not Available!");
         } else if (inputName.getText().isEmpty()) {
@@ -411,9 +427,7 @@ private boolean checkUserIdExists(String userId) {
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
-            }
-            
-             
+            } 
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -421,8 +435,9 @@ private boolean checkUserIdExists(String userId) {
         // TODO add your handling code here:
         // input validation
        String userId = ComboItem.getSelectedId(inputUserId);
+       String studentId = ComboItem.getSelectedId(inputId);
         // Check if user ID already exists in the database
-        boolean userIdExist = checkUserIdExists(userId);
+        boolean userIdExist = checkUserIdExists(userId, studentId);
         if (userIdExist) {
             JOptionPane.showMessageDialog(null, "User ID not Available!");
         } else if (inputName.getText().isEmpty()) {
@@ -435,8 +450,6 @@ private boolean checkUserIdExists(String userId) {
             JOptionPane.showMessageDialog(null, "Contact is required!");
         } else {
             // add new student
-            String studentId = ComboItem.getSelectedId(inputId);
-            String UserId = ComboItem.getSelectedId(inputUserId);
             String name = inputName.getText();
             String enrollmentYear = inputEnrollmentYear.getText();
             String contact = inputContact.getText();
@@ -484,9 +497,6 @@ private boolean checkUserIdExists(String userId) {
                 }
                 
             }
-            
-            
-             
         }
         
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -581,9 +591,15 @@ private boolean checkUserIdExists(String userId) {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputUserIdActionPerformed
 
+    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        // TODO add your handling code here:
+        loadAllData();
+    }//GEN-LAST:event_btnAdd1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
     private javax.swing.ButtonGroup btnGroupGender;

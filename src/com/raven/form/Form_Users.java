@@ -118,7 +118,7 @@ public class Form_Users extends javax.swing.JPanel {
 
         inputRole.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         inputRole.setForeground(new java.awt.Color(102, 102, 102));
-        inputRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose the role", "Student", "Teacher", " " }));
+        inputRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Teacher" }));
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
@@ -433,10 +433,6 @@ public class Form_Users extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteAccActionPerformed
 
-    private void inputSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputSearchActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         inputBersih();
@@ -473,21 +469,25 @@ public class Form_Users extends javax.swing.JPanel {
         inputSearch.setText("Input account id");
     }//GEN-LAST:event_btnClearFindActionPerformed
 
-    private void inputSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusGained
+    private void inputSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSearchActionPerformed
         // TODO add your handling code here:
-        if (inputSearch.getText().equals("Input account id")) { 
-            inputSearch.setText("");
-            inputSearch.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_inputSearchFocusGained
+    }//GEN-LAST:event_inputSearchActionPerformed
 
     private void inputSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusLost
         // TODO add your handling code here:
-        if (inputSearch.getText().isEmpty()) { 
+        if (inputSearch.getText().isEmpty()) {
             inputSearch.setText("Input account id");
             inputSearch.setForeground(Color.gray);
         }
     }//GEN-LAST:event_inputSearchFocusLost
+
+    private void inputSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusGained
+        // TODO add your handling code here:
+        if (inputSearch.getText().equals("Input account id")) {
+            inputSearch.setText("");
+            inputSearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_inputSearchFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -502,33 +502,13 @@ public class Form_Users extends javax.swing.JPanel {
     private javax.swing.JTextField inputSearch;
     private javax.swing.JTextField inputUname;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private com.raven.swing.PanelBorder panelBorder1;
-    private com.raven.swing.PanelBorder panelBorder2;
-    private com.raven.swing.PanelBorder panelBorder3;
-    private com.raven.swing.PanelBorder panelBorder4;
-    private com.raven.swing.PanelBorder panelBorder5;
     private com.raven.swing.PanelBorder panelBorder6;
-    private javax.swing.JTable tableResult;
-    private javax.swing.JTable tableResult1;
-    private javax.swing.JTable tableResult2;
-    private javax.swing.JTable tableResult3;
-    private javax.swing.JTable tableResult4;
     private javax.swing.JTable tableResultUname;
     // End of variables declaration//GEN-END:variables
 }

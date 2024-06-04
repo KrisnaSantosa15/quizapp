@@ -7,13 +7,13 @@ package com.raven.main;
 
 import com.raven.event.EventMenuSelected;
 import com.raven.form.Form_1;
-import com.raven.form.Form_2;
-import com.raven.form.Form_3;
+import com.raven.form.Form_Teachers;
+import com.raven.form.Form_Students;
 import com.raven.form.Form_Quizes;
 import com.raven.form.Form_Questions;
 import com.raven.form.Form_Home;
 import com.raven.form.Form_Users;
-import com.raven.form.Form_Feedback;
+import com.raven.form.Form_Feedbacks;
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -27,24 +27,23 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     private Form_Home home;
-    private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
-    private Form_Users formusers;
+    private Form_Teachers formTeachers;
+    private Form_Students formStudents;
+    private Form_Users formUsers;
     private Form_Quizes formQuizes;
     private Form_Questions formQuestions;
-    private Form_Feedback formFeedback;
+    private Form_Feedbacks formFeedbacks;
 
     public Main() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
-        formusers = new Form_Users();
-        form2 = new Form_2();
-        form3 = new Form_3();
+        formUsers = new Form_Users();
+        formTeachers = new Form_Teachers();
+        formStudents = new Form_Students();
         formQuizes = new Form_Quizes();
         formQuestions = new Form_Questions();
-        formFeedback= new Form_Feedback();
+        formFeedbacks= new Form_Feedbacks();
         
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -53,15 +52,17 @@ public class Main extends javax.swing.JFrame {
                 if (index == 0) {
                     setForm(home);
                 } else if (index == 1) {
-                    setForm(formusers);
+                    setForm(formUsers);
                 } else if (index == 2) {
-                    setForm(form2);
+                    setForm(formTeachers);
                 } else if (index == 3) {
-                    setForm(form3);
+                    setForm(formStudents);
                 }else if (index == 4) {
                     setForm(formQuizes);
                 }else if (index == 5) {
                     setForm(formQuestions);
+                }else if (index == 6) {
+                    setForm(formFeedbacks);
                 }
             }
         });

@@ -19,26 +19,10 @@ public class Form_Feedback extends javax.swing.JFrame {
      */
     Connection con;
     PreparedStatement pst;
-    ResultSet rs;
     
     public Form_Feedback() {
         initComponents();
-        connect();
         loadFeedbackData();
-    }
-
-     
-    public void connect() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/quizapp", "root", "");
-            if (con == null) {
-                throw new Exception("Failed to make connection!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Database Connection Failed: " + e.getMessage());
-        }
     }
     
     public void loadFeedbackData() {
@@ -227,7 +211,7 @@ public class Form_Feedback extends javax.swing.JFrame {
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(598, Short.MAX_VALUE))
+                .addContainerGap(581, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(345, 345, 345)
