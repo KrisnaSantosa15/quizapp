@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JFrame;
 
-public class Menu extends javax.swing.JPanel {
+public class MenuStudent extends javax.swing.JPanel {
 
     private EventMenuSelected event;
 
@@ -21,7 +21,7 @@ public class Menu extends javax.swing.JPanel {
         listMenu1.addEventMenuSelected(event);
     }
 
-    public Menu() {
+    public MenuStudent() {
         initComponents();
         setOpaque(false);
         listMenu1.setOpaque(false);
@@ -31,14 +31,10 @@ public class Menu extends javax.swing.JPanel {
     // Make a list of menu
     private void init() {
         listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Users", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Teachers", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Students", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Quizes", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "Questions", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Feedback", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("2", "Quizes", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Feedbacks", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Logout", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -54,15 +50,15 @@ public class Menu extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/logo.png"))); // NOI18N
-        jLabel1.setText("QuizApp");
+        jLabel1.setText("Application");
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
         panelMovingLayout.setHorizontalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(panelMovingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelMovingLayout.setVerticalGroup(
