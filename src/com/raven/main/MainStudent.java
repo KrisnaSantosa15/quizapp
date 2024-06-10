@@ -66,7 +66,7 @@ public class MainStudent extends javax.swing.JFrame {
             }
         });
         //  set when system open start with home form
-        setForm(new Form_Home());
+        setForm(new Form_StudentHome());
     }
     
     public MainStudent(String userIdParam, String usernameParam, String nameParam /*, other fields */){
@@ -84,6 +84,8 @@ public class MainStudent extends javax.swing.JFrame {
         String userId = getUserId();
         String username = getUsername();
         
+        formStudentQuizes = new Form_StudentQuizes();
+        formStudentFeedbacks= new Form_StudentFeedbacks();
         studentHome = new Form_StudentHome(userId,username,fullName);
         
         menu.initMoving(MainStudent.this);

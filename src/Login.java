@@ -1,7 +1,7 @@
 
 import com.raven.db.db_connection;
 import com.raven.main.Main;
-import com.raven.main.StudentMain;
+import com.raven.main.MainStudent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -184,8 +184,8 @@ public class Login extends javax.swing.JFrame {
                 
                 if ("student".equalsIgnoreCase(role)) {
                     // Assuming StudentMenu constructor accepts these parameters
-                    StudentMain studentMain = new StudentMain(userId, username, name /*, other fields */);
-                    studentMain.setVisible(true);
+                    MainStudent mainStudent = new MainStudent(userId, username, name /*, other fields */);
+                    mainStudent.setVisible(true);
                 } else if ("teacher".equalsIgnoreCase(role)) {
                     // Assuming TeacherMenu constructor accepts these parameters
                     Main Main = new Main(userId, username, name /*, other fields */);

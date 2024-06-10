@@ -6,7 +6,6 @@
 package com.raven.main;
 
 import com.raven.event.EventMenuSelected;
-import com.raven.form.Form_1;
 import com.raven.form.Form_Teachers;
 import com.raven.form.Form_Students;
 import com.raven.form.Form_Quizes;
@@ -27,6 +26,19 @@ public class Main extends javax.swing.JFrame {
     private String userId;
     private String username;
     private String name;
+    
+    // Getter methods to access the passed parameters
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFullName() {
+        return name;
+    }
 
     /**
      * Creates new form Main
@@ -40,6 +52,7 @@ public class Main extends javax.swing.JFrame {
     private Form_Feedbacks formFeedbacks;
 
     public Main() {
+        
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
@@ -90,7 +103,11 @@ public class Main extends javax.swing.JFrame {
         // Initialize your GUI components here
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        home = new Form_Home();
+        String fullName = getFullName();
+        String userId = getUserId();
+        String username = getUsername();
+        
+        home = new Form_Home(userId,username,fullName);
         formUsers = new Form_Users();
         formTeachers = new Form_Teachers();
         formStudents = new Form_Students();
@@ -125,7 +142,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         //  set when system open start with home form
-        setForm(new Form_Home());
+        setForm(new Form_Home(userId,username,fullName));
         
     }
 

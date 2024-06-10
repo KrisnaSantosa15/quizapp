@@ -39,8 +39,8 @@ public class Form_Teachers extends javax.swing.JPanel {
             Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
              Statement stmt = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             
-            ResultSet result = statement.executeQuery("SELECT * FROM teachers");
-            ResultSet resultUser = stmt.executeQuery("SELECT * FROM users WHERE role='teacher' AND id NOT IN (SELECT userId FROM teachers)");
+            ResultSet result = statement.executeQuery("SELECT t.*, u.username FROM teachers t INNER JOIN users u ON t.userId = u.id");
+            ResultSet resultUser = stmt.executeQuery("SELECT * FROM users WHERE role='teacher'");
             // mengisi tabelStudents dengan data
             tableStudents.setModel(DbUtils.resultSetToTableModel(result));
             

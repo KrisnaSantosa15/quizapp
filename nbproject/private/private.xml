@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/main/Main.java</file>
-            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/main/StudentMain.java</file>
+            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/main/MainStudent.java</file>
+            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/form/Form_StudentQuizes.java</file>
+            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/form/Form_StudentHome.java</file>
+            <file>file:/media/krisna/SSD%20Storage/MyProjects/Java%20Projects/quizapp/src/com/raven/form/Form_StudentFeedbacks.java</file>
         </group>
     </open-files>
 </project-private>

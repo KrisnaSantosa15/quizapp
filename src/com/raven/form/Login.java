@@ -188,8 +188,8 @@ public class Login extends javax.swing.JFrame {
                     mainStudent.setVisible(true);
                 } else if ("teacher".equalsIgnoreCase(role)) {
                     // Assuming TeacherMenu constructor accepts these parameters
-                    Main Main = new Main(userId, username, name /*, other fields */);
-                    Main.setVisible(true);
+                    Main main = new Main(userId, username, name /*, other fields */);
+                    main.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid role!");
                 }
