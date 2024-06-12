@@ -6,11 +6,9 @@ package com.raven.form;
 
 import com.raven.db.db_connection;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import java.util.*;
+import java.util.logging.*;
+import javax.swing.*;
 
 /**
  *
@@ -24,6 +22,7 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
     private ResultSet rsl; // ResultSet is now a class member for accessibility in different methods
     private int totalQuestions;
     private Map<Integer, String> userAnswers = new HashMap<>(); // To store user's answers
+    private List<Integer> questionIds = new ArrayList<>(); // To store all question IDs for the quiz
 
     public String getUserId() {
         return userId;
@@ -41,7 +40,7 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
         // Implement your question loading logic here
     }
     
-    public void submit() {
+     public void submit() {
         showUserAnswers();
         int response = JOptionPane.showConfirmDialog(this, "Do you want to submit the quiz?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
@@ -53,7 +52,7 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
         }
     }
     
-    public int calculateScore() {
+        public int calculateScore() {
         int score = 0;
         try {
             Connection C = db_connection.ConfigureDatabase();
@@ -76,10 +75,10 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
         return score;
     }
 
-     public void saveResult(double score) { // Accept score as a parameter
+      public void saveResult(double score) { // Accept score as a parameter
         try {
             Connection C = db_connection.ConfigureDatabase();
-            PreparedStatement ps = C.prepareStatement("INSERT INTO student_result (quizId, studentId, marks) VALUES (?, ?, ?)");
+            PreparedStatement ps = C.prepareStatement("INSERT INTO student_result (quizId, userId, marks) VALUES (?, ?, ?)");
             ps.setString(1, quizId);
             ps.setString(2, userId);
             ps.setDouble(3, score); // Use the score parameter
@@ -103,29 +102,49 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
         this.quizId = quizIdParam;
         initComponents();
         btnPrev.setVisible(false);
+        loadQuestionIds(quizIdParam); // Load all question IDs
         loadTotalQuestions(quizIdParam); // Load total number of questions
-        loadQuestion(quizIdParam);
+        loadQuestion(); // Load the first question based on the new logic
     }
 
-    private void loadTotalQuestions(String quizIdParam) {
-        try {
-            Connection C = db_connection.ConfigureDatabase();
-            Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = statement.executeQuery("SELECT COUNT(*) AS total FROM questions WHERE quizId = '" + quizIdParam + "'");
-            if (rs.next()) {
-                totalQuestions = rs.getInt("total");
+        private void loadTotalQuestions(String quizIdParam) {
+            try {
+                Connection C = db_connection.ConfigureDatabase();
+                Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = statement.executeQuery("SELECT COUNT(*) AS total FROM questions WHERE quizId = '" + quizIdParam + "'");
+                if (rs.next()) {
+                    totalQuestions = rs.getInt("total");
+                }
+            } catch (Exception e) {
+                Logger.getLogger(Form_StudentPlayQuiz.class.getName()).log(Level.SEVERE, null, e);
             }
-        } catch (Exception e) {
-            Logger.getLogger(Form_StudentPlayQuiz.class.getName()).log(Level.SEVERE, null, e);
         }
-    }
+    
+        private void loadQuestionIds(String quizIdParam) {
+            try {
+                Connection C = db_connection.ConfigureDatabase();
+                Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = statement.executeQuery("SELECT id FROM questions WHERE quizId = '" + quizIdParam + "'");
+                while (rs.next()) {
+                    questionIds.add(rs.getInt("id"));
+                }
+            } catch (Exception e) {
+                Logger.getLogger(Form_StudentPlayQuiz.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
 
-    private void loadQuestion() {
+        private void loadQuestion() {
+        if (questionId > questionIds.size() || questionId <= 0) {
+            return; // Invalid questionId
+        }
+
+        int currentQuestionId = questionIds.get(questionId - 1); // Get the actual question ID
         try {
             Connection C = db_connection.ConfigureDatabase();
             Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rsl = statement.executeQuery("SELECT * FROM questions WHERE id = " + questionId);
+            rsl = statement.executeQuery("SELECT * FROM questions q JOIN quizes z ON q.quizId=z.id WHERE q.id = " + currentQuestionId);
             if (rsl.next()) {
+                quizName.setText(rsl.getString("name"));
                 question.setText(rsl.getString("question"));
                 option_a.setText(rsl.getString("option_a"));
                 option_b.setText(rsl.getString("option_b"));
@@ -133,11 +152,38 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
                 option_d.setText(rsl.getString("option_d"));
                 answer = rsl.getString("correct_answer");
 
-                if (questionId == 1) {
-                    btnPrev.setVisible(false); // Hide the "Previous" button if on the first question
-                } else {
-                    btnPrev.setVisible(true); // Show the "Previous" button if not on the first question
+                // Clear previous selection
+                option_a.setSelected(false);
+                option_b.setSelected(false);
+                option_c.setSelected(false);
+                option_d.setSelected(false);
+
+                System.out.println("Cleared selections for question ID: " + currentQuestionId);
+
+                // Restore previously selected answer if available
+                if (userAnswers.containsKey(currentQuestionId)) {
+                    String selectedAnswer = userAnswers.get(currentQuestionId);
+                    switch (selectedAnswer) {
+                        case "A":
+                            option_a.setSelected(true);
+                            System.out.println("Restored selection A for question ID: " + currentQuestionId);
+                            break;
+                        case "B":
+                            option_b.setSelected(true);
+                            System.out.println("Restored selection B for question ID: " + currentQuestionId);
+                            break;
+                        case "C":
+                            option_c.setSelected(true);
+                            System.out.println("Restored selection C for question ID: " + currentQuestionId);
+                            break;
+                        case "D":
+                            option_d.setSelected(true);
+                            System.out.println("Restored selection D for question ID: " + currentQuestionId);
+                            break;
+                    }
                 }
+
+                btnPrev.setVisible(questionId != 1); // Hide the "Previous" button if on the first question
 
                 if (questionId == totalQuestions) {
                     btnNext.setText("Submit"); // Change the button text to "Submit" if on the last question
@@ -151,6 +197,7 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
     }
 
     private void loadQuestion(String quizIdParam) {
+        
         try {
             Connection C = db_connection.ConfigureDatabase();
             Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -183,17 +230,20 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
     
     private void saveUserAnswer() {
         // Save the selected answer for the current question
+        int currentQuestionId = questionIds.get(questionId - 1);
         if (option_a.isSelected()) {
-            userAnswers.put(questionId, "A");
+            userAnswers.put(currentQuestionId, "A");
         } else if (option_b.isSelected()) {
-            userAnswers.put(questionId, "B");
+            userAnswers.put(currentQuestionId, "B");
         } else if (option_c.isSelected()) {
-            userAnswers.put(questionId, "C");
+            userAnswers.put(currentQuestionId, "C");
         } else if (option_d.isSelected()) {
-            userAnswers.put(questionId, "D");
+            userAnswers.put(currentQuestionId, "D");
+        } else {
+            userAnswers.remove(currentQuestionId); // Ensure previous answer is removed if none selected
         }
     }
-    
+
     private void showUserAnswers() {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Integer, String> entry : userAnswers.entrySet()) {
@@ -375,7 +425,7 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
         saveUserAnswer(); // Call saveUserAnswer() before moving to the next question
         if (questionId < totalQuestions) {
             questionId++; // Increment questionId to load the next question
-            loadQuestion(getQuizId()); // Load the next question
+            loadQuestion(); // Load the next question
             btnPrev.setVisible(true); // Ensure the "Previous" button is visible
 
             if (questionId == totalQuestions) {
@@ -387,14 +437,12 @@ public class Form_StudentPlayQuiz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        saveUserAnswer(); // Call saveUserAnswer() before moving to the previous question
+         saveUserAnswer(); // Call saveUserAnswer() before moving to the previous question
         if (questionId > 1) {
             questionId--;
-            loadQuestion(getQuizId());
+            loadQuestion();
 
-            if (questionId == 1) {
-                btnPrev.setVisible(false); // Hide the "Previous" button if on the first question
-            }
+            btnPrev.setVisible(questionId != 1); // Hide the "Previous" button if on the first question
 
             if (questionId < totalQuestions) {
                 btnNext.setText("Next"); // Change the button text back to "Next"

@@ -339,10 +339,10 @@ private boolean checkUserIdExists(String userId, String studentId) {
         
         // Conditionally adjust the query based on whether studentId is provided
         if (studentId == null) {
-            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM students WHERE userId = ?");
+            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM teachers WHERE userId = ?");
             pst.setString(1, userId);
         } else {
-            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM students WHERE userId = ? AND id != ?");
+            pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM teachers WHERE userId = ? AND id != ?");
             pst.setString(1, userId);
             pst.setString(2, studentId);
         }
