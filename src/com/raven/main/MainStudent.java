@@ -39,6 +39,7 @@ public class MainStudent extends javax.swing.JFrame {
     private Form_StudentHome studentHome;
     private Form_StudentQuizes formStudentQuizes;
     private Form_StudentFeedbacks formStudentFeedbacks;
+    private Form_StudentHistory formStudentHistory;
 
     public MainStudent() {
         initComponents();
@@ -46,6 +47,7 @@ public class MainStudent extends javax.swing.JFrame {
         studentHome = new Form_StudentHome();
         formStudentQuizes = new Form_StudentQuizes();
         formStudentFeedbacks= new Form_StudentFeedbacks();
+        formStudentHistory= new Form_StudentHistory();
         
         menu.initMoving(MainStudent.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -57,7 +59,9 @@ public class MainStudent extends javax.swing.JFrame {
                     setForm(formStudentQuizes);
                 } else if (index == 2) {
                     setForm(formStudentFeedbacks);
-                } else if (index == 3) {
+                } else if (index == 2) {
+                    setForm(formStudentHistory);
+                }else if (index == 4) {
                     setVisible(false);
                     Login loginPage = new Login();
                     loginPage.setLocationRelativeTo(null); // Center the Login JFrame
@@ -84,8 +88,9 @@ public class MainStudent extends javax.swing.JFrame {
         String userId = getUserId();
         String username = getUsername();
         
-        formStudentQuizes = new Form_StudentQuizes();
-        formStudentFeedbacks= new Form_StudentFeedbacks();
+        formStudentQuizes = new Form_StudentQuizes(getUserId());
+        formStudentFeedbacks= new Form_StudentFeedbacks(getUserId());
+        formStudentHistory= new Form_StudentHistory(getUserId());
         studentHome = new Form_StudentHome(userId,username,fullName);
         
         menu.initMoving(MainStudent.this);
@@ -103,6 +108,9 @@ public class MainStudent extends javax.swing.JFrame {
                         setForm(formStudentFeedbacks);
                         break;
                     case 3:
+                        setForm(formStudentHistory);
+                        break;
+                    case 4:
                         setVisible(false);
                         Login loginPage = new Login();
                         loginPage.setLocationRelativeTo(null); // Center the Login JFrame

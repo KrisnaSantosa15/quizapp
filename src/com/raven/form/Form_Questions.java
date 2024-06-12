@@ -21,7 +21,7 @@ public class Form_Questions extends javax.swing.JPanel {
             Connection C = db_connection.ConfigureDatabase();
             Statement statement = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             Statement stmt = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet result = statement.executeQuery("SELECT * FROM questions");
+            ResultSet result = statement.executeQuery("SELECT z.name as QuizName, q.id, q.question, q.option_a, q.option_b, q.option_c, q.option_d, q.correct_answer FROM questions q JOIN quizes z ON q.quizId=z.id");
             ResultSet resultQuiz = stmt.executeQuery("SELECT * FROM quizes");
 
             // Mengisi resultTable dengan data

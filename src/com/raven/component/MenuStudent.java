@@ -33,6 +33,7 @@ public class MenuStudent extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("2", "Quizes", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Feedbacks", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("4", "History", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Logout", Model_Menu.MenuType.MENU));
 
     }

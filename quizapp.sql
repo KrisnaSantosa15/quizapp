@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 04, 2024 at 12:14 PM
+-- Generation Time: Jun 12, 2024 at 09:55 AM
 -- Server version: 8.0.35
 -- PHP Version: 8.2.18
 
@@ -39,8 +39,7 @@ CREATE TABLE `feedbacks` (
 --
 
 INSERT INTO `feedbacks` (`id`, `teacherId`, `studentId`, `feedback`) VALUES
-(1, 1, 14, 'APAKAHHHasdasd'),
-(3, 1, 14, 'test');
+(1, 1, 1, 'Tingkatkan Lagi Belajar Kamu!');
 
 -- --------------------------------------------------------
 
@@ -64,11 +63,11 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`id`, `quizId`, `question`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`) VALUES
-(1, 9, '1+1', '44', '23', '2', '1', 'C'),
-(4, 1, 'are you ready?', 'ready', 'no', 'yes', 'maybe', 'A'),
-(5, 3, 'ini ipa', 'oke', 'sip', 'ipa', 'tes', 'C'),
-(6, 1, 'test', 'satu', 'tiga', 'dua', 'empat', 'A'),
-(7, 18, 'abcasd', 'abc', 'abc', 'abc', 'abc', 'A');
+(1, 1, 'Manakah dari berikut ini yang merupakan unit dasar kehidupan? ', 'Atom', 'Molekul', 'Sel', 'Jaringan', 'C'),
+(2, 1, 'Hukum Newton yang pertama dikenal juga sebagai hukum ... ', 'Inersia', 'Aksi reaksi', 'Gravitasi', 'Gerak', 'A'),
+(3, 1, 'Senyawa yang terdiri dari satu atom karbon dan empat atom hidrogen adalah ... ', 'Metana', 'Etana', 'Propana', 'Butana', 'A'),
+(4, 2, 'Hasil dari 2+2 adalah ...', '1', '2', '3', '4', 'D'),
+(5, 2, 'Hasil Dari 4 x 3', '3', '4', '12', '7', 'C');
 
 -- --------------------------------------------------------
 
@@ -87,15 +86,8 @@ CREATE TABLE `quizes` (
 --
 
 INSERT INTO `quizes` (`id`, `name`, `description`) VALUES
-(3, 'IPA', 'Ini adalah ilmu tentang alam'),
-(7, '1', '1'),
-(8, '2', '2'),
-(9, '3', '3'),
-(10, '4', '4'),
-(11, '1', '1'),
-(12, '12', '12'),
-(17, 'abc', 'abc'),
-(18, 'test', 'test');
+(1, 'IPA', 'Kuis tentang Ilmu Pengetahuan Alam'),
+(2, 'Matematika', 'Kuis Tentang Matematika');
 
 -- --------------------------------------------------------
 
@@ -118,8 +110,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `userId`, `name`, `enrollmentYear`, `address`, `gender`, `contact`) VALUES
-(1, 3, 'Rifdah', '2021', 'Jl. Bhguhasd', 'Male', '123'),
-(14, 4, 'murid 4', '2021', 'di mana', 'Male', '123');
+(1, 2, 'Krisna Santosa', '2022', 'Bandung', 'male', '08123123123');
 
 -- --------------------------------------------------------
 
@@ -129,10 +120,17 @@ INSERT INTO `students` (`id`, `userId`, `name`, `enrollmentYear`, `address`, `ge
 
 CREATE TABLE `student_result` (
   `id` int NOT NULL,
-  `studentId` int NOT NULL,
+  `userId` int NOT NULL,
   `quizId` int NOT NULL,
   `marks` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_result`
+--
+
+INSERT INTO `student_result` (`id`, `userId`, `quizId`, `marks`) VALUES
+(1, 2, 1, 100);
 
 -- --------------------------------------------------------
 
@@ -154,9 +152,7 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `userId`, `name`, `address`, `gender`, `contact`) VALUES
-(1, 3, 'guru', NULL, 'Female', NULL),
-(2, 5, 'Guru Gembul', 'Garut', 'Male', '123'),
-(3, 1, 'Guru Lagi', 'Bandung', 'Male', '123');
+(1, 1, 'Guru Gembul', 'Garut', 'female', '0812345678');
 
 -- --------------------------------------------------------
 
@@ -176,12 +172,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(1, 'gurusatu', 'guru123', 'teacher'),
-(3, 'student', 'student', 'student'),
-(4, 'TEST', 'TEST', 'student'),
-(5, 'guru2', 'guru2', 'teacher'),
-(6, 'guru tes', 'gurutes', 'teacher'),
-(7, 'murid', 'murid1', 'student');
+(1, 'teacher', 'teacher123', 'teacher'),
+(2, 'student', 'student123', 'student');
 
 --
 -- Indexes for dumped tables
@@ -218,7 +210,7 @@ ALTER TABLE `students`
 --
 ALTER TABLE `student_result`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `studentId` (`studentId`),
+  ADD KEY `studentId` (`userId`),
   ADD KEY `quizId` (`quizId`);
 
 --
@@ -242,43 +234,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `quizes`
 --
 ALTER TABLE `quizes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `student_result`
 --
 ALTER TABLE `student_result`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

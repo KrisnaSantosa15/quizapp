@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author RAVEN
  */
-public class Form_StudentFeedbacks extends javax.swing.JPanel {
+public class Form_StudentHistory extends javax.swing.JPanel {
     private String userId;
     
     public String getUserId() {
@@ -26,12 +26,12 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
     /**
      * Creates new form Form_1
      */
-    public Form_StudentFeedbacks() {
+    public Form_StudentHistory() {
         initComponents();
         loadAllData();
     }
     
-    public Form_StudentFeedbacks(String userIdParam) {
+    public Form_StudentHistory(String userIdParam) {
         this.userId = userIdParam;
         initComponents();
         loadAllData();
@@ -43,12 +43,7 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
     public void loadAllData() {
         try {
             Connection C = db_connection.ConfigureDatabase();
-            Statement smt = C.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT f.id, t.name as teacherName, feedback FROM feedbacks f " +
-                   "JOIN students s ON f.studentId = s.id " +
-                   "JOIN teachers t ON f.teacherId = t.id " +
-                   "JOIN users u ON s.userId = u.id " +
-                   "WHERE u.id = ?";
+            String query = "SELECT sr.id, q.name, marks from student_result sr JOIN quizes q ON q.id=sr.quizId WHERE userId = ?";
 
             PreparedStatement pstmt = C.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             int userIdInt = Integer.parseInt(userId);  // Convert userId from String to int
@@ -61,12 +56,6 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
             
             // Mengisi inputId dengan id dari resultSet yang sama
             resultFeedbacks.beforeFirst(); // Pindahkan cursor ke sebelum baris pertama
-            inputId.removeAllItems();
-            while (resultFeedbacks.next()) {
-                String id = resultFeedbacks.getString("id");
-                String name = resultFeedbacks.getString("id"); // Assuming there is a 'name' column
-                inputId.addItem(new ComboItem(id, name));
-            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -82,12 +71,6 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        inputFeedback = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
-        inputId = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         pageTitle = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -99,34 +82,12 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
         setForeground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(915, 606));
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel3.setText("Description");
-
-        inputFeedback.setEditable(false);
-        inputFeedback.setColumns(20);
-        inputFeedback.setRows(5);
-        jScrollPane1.setViewportView(inputFeedback);
-
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel4.setText("ID");
-
-        btnSearch.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        btnSearch.setText("Search");
-        btnSearch.setPreferredSize(new java.awt.Dimension(100, 40));
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         pageTitle.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         pageTitle.setForeground(new java.awt.Color(127, 127, 127));
-        pageTitle.setText("Feedback Data");
+        pageTitle.setText("History Data");
 
         tableResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -157,14 +118,14 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pageTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(137, 137, 137))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pageTitle1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         pageTitle1.setForeground(new java.awt.Color(127, 127, 127));
-        pageTitle1.setText("Your Feedbacks");
+        pageTitle1.setText("Your Result History");
 
         btnRefresh.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         btnRefresh.setText("Refresh");
@@ -188,64 +149,22 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
                 .addComponent(pageTitle1)
                 .addGap(359, 359, 359))
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19))))
+                .addGap(37, 37, 37)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(pageTitle1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(22, 22, 22))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // Get Data By Id:
-        String feedbackId = ComboItem.getSelectedId(inputId);
-        try {
-            Connection C = db_connection.ConfigureDatabase();
-            pst = C.prepareStatement("SELECT * FROM feedbacks WHERE id=?");
-            pst.setString(1, feedbackId);
-            rs = pst.executeQuery();
-            
-            if(rs.next()){
-                ComboItem.setComboBoxSelectedItem(inputId, feedbackId);
-                inputFeedback.setText(rs.getString("feedback"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No Items Found!");
-            }
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
@@ -255,13 +174,7 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JTextArea inputFeedback;
-    private javax.swing.JComboBox<ComboItem> inputId;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel pageTitle;
     private javax.swing.JLabel pageTitle1;

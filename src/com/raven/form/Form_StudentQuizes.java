@@ -6,6 +6,7 @@
 package com.raven.form;
 
 import com.raven.db.db_connection;
+import com.raven.main.MainStudent;
 import java.sql.*;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  * @author RAVEN
  */
 public class Form_StudentQuizes extends javax.swing.JPanel {
+    private String userId;
 
     /**
      * Creates new form Form_1
@@ -23,6 +25,16 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
     public Form_StudentQuizes() {
         initComponents();
         loadAllData();
+    }
+    
+    public Form_StudentQuizes(String userIdParam) {
+        this.userId = userIdParam;
+        initComponents();
+        loadAllData();
+    }
+    
+    public String getUserId(){
+        return this.userId;
     }
     
     PreparedStatement pst;
@@ -85,12 +97,14 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(127, 127, 127));
         jLabel3.setText("Description");
 
+        inputName.setEditable(false);
         inputName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputNameActionPerformed(evt);
             }
         });
 
+        inputDescription.setEditable(false);
         inputDescription.setColumns(20);
         inputDescription.setRows(5);
         jScrollPane1.setViewportView(inputDescription);
@@ -230,30 +244,29 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
         // Input Validation
-        if(inputName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Quiz Name is Required!");
-        } else if(inputDescription.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Quiz Description is Required!");
+        if(inputId.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(null, "Please select a Quiz ID!");
         } else {
-            // Add new Quiz
-            String quizName = inputName.getText();
-            String quizDescription = inputDescription.getText();
+            // Play Quiz
+            String selectedQuizId = inputId.getSelectedItem().toString();
 
             try {
                 Connection C = db_connection.ConfigureDatabase();
-                pst = C.prepareStatement("INSERT INTO quizes (name, description) VALUES (?, ?)");
-                pst.setString(1, quizName);
-                pst.setString(2, quizDescription);
-
-                int k = pst.executeUpdate();
-
-                if(k==1){
-                    JOptionPane.showMessageDialog(null, "Item Added Successfuly!");
-                    inputName.setText("");
-                    inputDescription.setText("");
-                    loadAllData();
+                PreparedStatement pst = C.prepareStatement("SELECT * FROM `questions` WHERE quizId = ?");
+                pst.setString(1, selectedQuizId);
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()) {
+                    // arahkan ke form_studentPlayQuiz
+                     // pindah halaman
+                     Form_StudentPlayQuiz playQuiz = new Form_StudentPlayQuiz(selectedQuizId, getUserId());
+                     playQuiz.pack();
+                     playQuiz.setLocationRelativeTo(null);
+                     playQuiz.setVisible(true);
+                    // frame ini hilang
+//                    this.setVisible(false);
                 } else {
-                    JOptionPane.showMessageDialog(null, "An Error Occured, Item Not Saved!");
+                    JOptionPane.showMessageDialog(null, "No questions found for the selected quiz!");
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);

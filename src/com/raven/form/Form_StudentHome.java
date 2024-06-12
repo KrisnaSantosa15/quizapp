@@ -47,6 +47,7 @@ public class Form_StudentHome extends javax.swing.JPanel {
         jLabel1.setText("HELLO ");
 
         fullNameLabel.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        fullNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fullNameLabel.setText("{NAME}");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -64,8 +65,8 @@ public class Form_StudentHome extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addGap(376, 376, 376))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(fullNameLabel)
-                        .addGap(376, 376, 376))))
+                        .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(132, 132, 132))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

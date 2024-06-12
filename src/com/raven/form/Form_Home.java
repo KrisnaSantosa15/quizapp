@@ -51,7 +51,7 @@ public class Form_Home extends javax.swing.JPanel {
 
         initComponents();
 
-        fullNameLabel.setText(getFullName());
+        fullNameLabel.setText(getUsername());
     }
 
     @SuppressWarnings("unchecked")
