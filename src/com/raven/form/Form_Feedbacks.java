@@ -215,6 +215,12 @@ public class Form_Feedbacks extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(127, 127, 127));
         jLabel5.setText("Teacher");
 
+        teacherId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teacherIdActionPerformed(evt);
+            }
+        });
+
         btnRefresh.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         btnRefresh.setText("Refresh");
         btnRefresh.setPreferredSize(new java.awt.Dimension(100, 40));
@@ -276,10 +282,12 @@ public class Form_Feedbacks extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(pageTitle1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(teacherId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(teacherId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -450,6 +458,10 @@ public class Form_Feedbacks extends javax.swing.JPanel {
         // TODO add your handling code here:
         loadAllData();
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void teacherIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_teacherIdActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

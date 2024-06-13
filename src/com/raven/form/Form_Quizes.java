@@ -165,6 +165,11 @@ public class Form_Quizes extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableResult.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableResultMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableResult);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -266,36 +271,90 @@ public class Form_Quizes extends javax.swing.JPanel {
     private void inputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNameActionPerformed
+    private boolean checkQuizNameExists(String quizName, String quizId) {
+        Connection connection = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        boolean quizNameExists = false;
+
+        try {
+            connection = db_connection.ConfigureDatabase();
+
+            if (quizId == null) {
+                pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM quizes WHERE name = ?");
+                pst.setString(1, quizName);
+            } else {
+                pst = connection.prepareStatement("SELECT COUNT(*) AS count FROM quizes WHERE name = ? AND id != ?");
+                pst.setString(1, quizName);
+                pst.setString(2, quizId);
+            }
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                quizNameExists = (count > 0);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error closing database resources: " + e.getMessage());
+            }
+        }
+
+        return quizNameExists;
+    }
+
+
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
         // Input Validation
-        if(inputName.getText().isEmpty()){
+        if (inputName.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Quiz Name is Required!");
-        } else if(inputDescription.getText().isEmpty()){
+        } else if (inputDescription.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Quiz Description is Required!");
         } else {
-            // Add new Quiz
+            // Check if quiz name already exists in the database
             String quizName = inputName.getText();
-            String quizDescription = inputDescription.getText();
+            boolean quizNameExists = checkQuizNameExists(quizName, null); // Pass null for add
 
-            try {
-                Connection C = db_connection.ConfigureDatabase();
-                pst = C.prepareStatement("INSERT INTO quizes (name, description) VALUES (?, ?)");
-                pst.setString(1, quizName);
-                pst.setString(2, quizDescription);
+            if (quizNameExists) {
+                JOptionPane.showMessageDialog(null, "Quiz name already exists! Please choose a different name.");
+            } else {
+                // Add new Quiz
+                String quizDescription = inputDescription.getText();
 
-                int k = pst.executeUpdate();
+                try {
+                    Connection C = db_connection.ConfigureDatabase();
+                    pst = C.prepareStatement("INSERT INTO quizes (name, description) VALUES (?, ?)");
+                    pst.setString(1, quizName);
+                    pst.setString(2, quizDescription);
 
-                if(k==1){
-                    JOptionPane.showMessageDialog(null, "Item Added Successfuly!");
-                    inputName.setText("");
-                    inputDescription.setText("");
-                    loadAllData();
-                } else {
-                    JOptionPane.showMessageDialog(null, "An Error Occured, Item Not Saved!");
+                    int k = pst.executeUpdate();
+
+                    if (k == 1) {
+                        JOptionPane.showMessageDialog(null, "Quiz Added Successfully!");
+                        inputName.setText("");
+                        inputDescription.setText("");
+                        loadAllData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "An Error Occurred, Quiz Not Saved!");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -320,42 +379,49 @@ public class Form_Quizes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-    // Input Validation
-    if(inputName.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "Quiz Name is Required!");
-    } else if(inputDescription.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "Quiz Description is Required!");
-    } else {
-        // Ambil data dari input
-        String quizName = inputName.getText();
-        String quizDescription = inputDescription.getText();
-        String quizId = inputId.getSelectedItem().toString();
+        // Input Validation
+        if (inputName.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Quiz Name is Required!");
+        } else if (inputDescription.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Quiz Description is Required!");
+        } else {
+            // Retrieve data from input
+            String quizName = inputName.getText();
+            String quizDescription = inputDescription.getText();
+            String quizId = inputId.getSelectedItem().toString(); // Assuming you have a dropdown or input for quiz ID
 
-        // Tampilkan dialog konfirmasi
-        int response = JOptionPane.showConfirmDialog(null, "Are you sure to update this data?", "Confirm Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            // Check if quiz name already exists for other quizzes
+            boolean quizNameExists = checkQuizNameExists(quizName, quizId);
 
-        // Jika pengguna mengonfirmasi (klik Yes), lanjutkan pembaruan
-        if (response == JOptionPane.YES_OPTION) {
-            try {
-                Connection C = db_connection.ConfigureDatabase();
-                pst = C.prepareStatement("UPDATE quizes SET name=?, description=? WHERE id=?");
-                pst.setString(1, quizName);
-                pst.setString(2, quizDescription);
-                pst.setString(3, quizId);
+            if (quizNameExists) {
+                JOptionPane.showMessageDialog(null, "Quiz name already exists for another quiz! Please choose a different name.");
+            } else {
+                // Show confirmation dialog
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure to update this data?", "Confirm Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-                int k = pst.executeUpdate();
+                // If user confirms (clicks Yes), proceed with the update
+                if (response == JOptionPane.YES_OPTION) {
+                    try {
+                        Connection C = db_connection.ConfigureDatabase();
+                        pst = C.prepareStatement("UPDATE quizes SET name = ?, description = ? WHERE id = ?");
+                        pst.setString(1, quizName);
+                        pst.setString(2, quizDescription);
+                        pst.setString(3, quizId);
 
-                    if(k == 1) {
-                        JOptionPane.showMessageDialog(null, "Item Updated Successfully!");
-                        inputName.setText("");
-                        inputDescription.setText("");
-                        inputName.requestFocus();
-                        loadAllData();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "An Error Occurred, Item Not Updated!");
-                    }
-                } catch (Exception e) {
+                        int k = pst.executeUpdate();
+
+                        if (k == 1) {
+                            JOptionPane.showMessageDialog(null, "Quiz Updated Successfully!");
+                            inputName.setText("");
+                            inputDescription.setText("");
+                            inputName.requestFocus();
+                            loadAllData();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "An Error Occurred, Quiz Not Updated!");
+                        }
+                    } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e);
+                    }
                 }
             }
         }
@@ -396,6 +462,22 @@ public class Form_Quizes extends javax.swing.JPanel {
         inputDescription.setText("");
         inputName.requestFocus();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tableResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableResultMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tableResult.getSelectedRow();
+        if (selectedRow != -1) {
+            // Assuming your table model's columns match the database columns in order
+            String quizId = tableResult.getValueAt(selectedRow, 0).toString(); // Assuming first column is quiz ID
+            String quizName = tableResult.getValueAt(selectedRow, 1).toString(); // Assuming second column is quiz name
+            String quizDescription = tableResult.getValueAt(selectedRow, 2).toString(); // Assuming third column is quiz description
+
+            // Populate the input fields
+            inputId.setSelectedItem(quizId); // Adjust this if inputId is a different component
+            inputName.setText(quizName);
+            inputDescription.setText(quizDescription);
+        }
+    }//GEN-LAST:event_tableResultMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
