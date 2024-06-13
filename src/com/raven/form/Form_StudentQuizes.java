@@ -18,28 +18,61 @@ import javax.swing.JOptionPane;
  */
 public class Form_StudentQuizes extends javax.swing.JPanel {
     private String userId;
+    private String selectedQuizId; // Untuk menyimpan ID kuis yang dipilih
+    private String username;
+    private String name;
+    
+    // Getter methods to access the passed parameters
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFullName() {
+        return name;
+    }
 
     /**
      * Creates new form Form_1
      */
     public Form_StudentQuizes() {
         initComponents();
-        loadAllData();
+//        loadAllData();
+        initializeComboBox();
     }
     
-    public Form_StudentQuizes(String userIdParam) {
+    public Form_StudentQuizes(String userIdParam, String nameParam) {
         this.userId = userIdParam;
-        initComponents();
-        loadAllData();
+        this.name = nameParam; // Inisialisasi nama
+
+        initComponents(); // Inisialisasi komponen UI (termasuk FullNameLabel)
+        FullNameLabel.setText(name); // Set teks label dengan nama lengkap
+        initializeComboBox();
     }
-    
-    public String getUserId(){
-        return this.userId;
-    }
+
     
     PreparedStatement pst;
     ResultSet rs;
     
+    private void initializeComboBox() {
+        try {
+            Connection C = db_connection.ConfigureDatabase();
+            pst = C.prepareStatement("SELECT id, name FROM quizes"); // Ambil id dan nama
+            rs = pst.executeQuery();
+            
+            inputQuiz.removeAllItems(); // Hapus semua item default sebelum menambahkan item baru
+            while (rs.next()) {
+                inputQuiz.addItem(rs.getString("name")); // Masukkan nama ke combo box
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+ /*****************   
     public void loadAllData() {
         try {
             Connection C = db_connection.ConfigureDatabase();
@@ -52,16 +85,16 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
 
             // Mengisi inputId dengan id dari resultSet yang sama
             result.beforeFirst(); // Pindahkan cursor ke sebelum baris pertama
-            inputId.removeAllItems();
+            inputQuiz.removeAllItems();
             while (result.next()) {
-                inputId.addItem(result.getString("id"));
+                inputQuiz.addItem(result.getString("id"));
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+****************************/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,38 +104,36 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        pageTitle1 = new javax.swing.JLabel();
+        FullNameLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        inputName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         inputDescription = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        inputId = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
-        btnPlay = new javax.swing.JButton();
+        inputQuiz = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        pageTitle = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableResult = new javax.swing.JTable();
-        pageTitle1 = new javax.swing.JLabel();
+        jTextArea1 = new javax.swing.JTextArea();
+        btnPlay = new rojerusan.RSMaterialButtonRectangle();
+        iconSearch = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(915, 606));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel2.setText("Name");
+        pageTitle1.setFont(new java.awt.Font("SansSerif", 1, 30)); // NOI18N
+        pageTitle1.setForeground(new java.awt.Color(127, 127, 127));
+        pageTitle1.setText("Welcome to Quiz Pages, ");
+
+        FullNameLabel.setFont(new java.awt.Font("SansSerif", 1, 30)); // NOI18N
+        FullNameLabel.setForeground(new java.awt.Color(127, 127, 127));
+        FullNameLabel.setText("{NAME}");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(127, 127, 127));
         jLabel3.setText("Description");
-
-        inputName.setEditable(false);
-        inputName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNameActionPerformed(evt);
-            }
-        });
 
         inputDescription.setEditable(false);
         inputDescription.setColumns(20);
@@ -111,20 +142,65 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel4.setText("ID");
+        jLabel4.setText("Select topic");
 
-        inputId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        inputQuiz.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnSearch.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        btnSearch.setText("Search");
-        btnSearch.setPreferredSize(new java.awt.Dimension(100, 40));
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnPlay.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(127, 127, 127));
+        jLabel1.setText("Quiz Guide!");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText("1. To start the quiz, you should choose the topic first.\n2. You can start the quiz by clicking the \"Play\" button.\n3. Before submitting the quiz, you can make sure your \n   answer by click \"prev\" to see previous questions, \n   and \"next\" to see your next questions. \n4. After you submitting a quiz, you can see your result\n   score immediately!.\n\n \t== GOOD LUCK! ==");
+        jScrollPane2.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 85, Short.MAX_VALUE))
+        );
+
+        btnPlay.setBackground(new java.awt.Color(0, 102, 204));
         btnPlay.setText("Play");
         btnPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,139 +208,87 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
             }
         });
 
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
-
-        pageTitle.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
-        pageTitle.setForeground(new java.awt.Color(127, 127, 127));
-        pageTitle.setText("Quiz Data");
-
-        tableResult.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        iconSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/search.png"))); // NOI18N
+        iconSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconSearchMouseClicked(evt);
             }
-        ));
-        jScrollPane2.setViewportView(tableResult);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pageTitle))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pageTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235))
-        );
-
-        pageTitle1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
-        pageTitle1.setForeground(new java.awt.Color(127, 127, 127));
-        pageTitle1.setText("QUIZES MENU");
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(354, 354, 354))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                            .addComponent(inputName))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pageTitle1)
-                .addGap(358, 358, 358))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(inputQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(iconSearch))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(223, 223, 223)
+                        .addComponent(pageTitle1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FullNameLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(pageTitle1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FullNameLabel)
+                    .addComponent(pageTitle1))
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(iconSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(inputQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)))
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputNameActionPerformed
-
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
-        // Input Validation
-        if(inputId.getSelectedItem() == null){
+         if(selectedQuizId == null){
             JOptionPane.showMessageDialog(null, "Please select a Quiz ID!");
         } else {
             // Play Quiz
-            String selectedQuizId = inputId.getSelectedItem().toString();
-
             try {
                 Connection C = db_connection.ConfigureDatabase();
                 PreparedStatement pst = C.prepareStatement("SELECT * FROM `questions` WHERE quizId = ?");
                 pst.setString(1, selectedQuizId);
                 ResultSet rs = pst.executeQuery();
-                
+
                 if (rs.next()) {
                     // arahkan ke form_studentPlayQuiz
-                     // pindah halaman
-                     Form_StudentPlayQuiz playQuiz = new Form_StudentPlayQuiz(selectedQuizId, getUserId());
-                     playQuiz.pack();
-                     playQuiz.setLocationRelativeTo(null);
-                     playQuiz.setVisible(true);
+                    // pindah halaman
+                    Form_StudentPlayQuiz playQuiz = new Form_StudentPlayQuiz(selectedQuizId, getUserId());
+                    playQuiz.pack();
+                    playQuiz.setLocationRelativeTo(null);
+                    playQuiz.setVisible(true);
                     // frame ini hilang
-//                    this.setVisible(false);
+                    //                    this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "No questions found for the selected quiz!");
                 }
@@ -274,40 +298,62 @@ public class Form_StudentQuizes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnPlayActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // Get Data By Id:
-        String quizId = inputId.getSelectedItem().toString();
+    private void iconSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconSearchMouseClicked
+        // TODO add your handling code here:
+         // Get Data By Id:
+        String quizName = inputQuiz.getSelectedItem().toString();
         try {
             Connection C = db_connection.ConfigureDatabase();
-            pst = C.prepareStatement("SELECT * FROM quizes WHERE id=?");
-            pst.setString(1, quizId);
+            pst = C.prepareStatement("SELECT * FROM quizes WHERE name=?");
+            pst.setString(1, quizName); 
             rs = pst.executeQuery();
-            
-            if(rs.next()){
-                inputName.setText(rs.getString("name"));
+
+            if (rs.next()) {
+                selectedQuizId = rs.getString("id"); // Simpan ID
+//                inputName.setText(rs.getString("name")); //dihapus karena tidak pakai name
                 inputDescription.setText(rs.getString("description"));
             } else {
                 JOptionPane.showMessageDialog(null, "No Items Found!");
             }
         } catch (Exception e) {
+            // ... (penanganan error)
         }
-    }//GEN-LAST:event_btnSearchActionPerformed
+        /*************
+        String quizName = inputQuiz.getSelectedItem().toString();
+        try {
+            Connection C = db_connection.ConfigureDatabase();
+            pst = C.prepareStatement("SELECT * FROM quizes WHERE name=?");
+            pst.setString(1, quizName); 
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                selectedQuizId = rs.getString("id"); // Simpan ID
+//                inputName.setText(rs.getString("name"));
+                inputDescription.setText(rs.getString("description"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No Items Found!");
+            }
+        } catch (Exception e) {
+            // ... (penanganan error)
+        }
+        *************/
+    }//GEN-LAST:event_iconSearchMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPlay;
-    private javax.swing.JButton btnSearch;
+    private javax.swing.JLabel FullNameLabel;
+    private rojerusan.RSMaterialButtonRectangle btnPlay;
+    private javax.swing.JLabel iconSearch;
     private javax.swing.JTextArea inputDescription;
-    private javax.swing.JComboBox<String> inputId;
-    private javax.swing.JTextField inputName;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JComboBox<String> inputQuiz;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel pageTitle;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel pageTitle1;
-    private javax.swing.JTable tableResult;
     // End of variables declaration//GEN-END:variables
 }

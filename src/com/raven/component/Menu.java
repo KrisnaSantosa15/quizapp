@@ -30,14 +30,14 @@ public class Menu extends javax.swing.JPanel {
     
     // Make a list of menu
     private void init() {
-        listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Users", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Teachers", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Students", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Quizes", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "Questions", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Feedback", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Logout", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("dashboard", "Dashboard", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("users", "Users", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("teacher", "Teachers", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("student", "Students", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("quiz", "Quizes", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("questions", "Questions", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("feedbacks", "Feedback", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("logout", "Logout", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
     }
 
@@ -53,7 +53,7 @@ public class Menu extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/logo_transparent.png"))); // NOI18N
         jLabel1.setText("QuizApp");
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);

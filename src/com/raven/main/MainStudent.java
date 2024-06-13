@@ -88,7 +88,7 @@ public class MainStudent extends javax.swing.JFrame {
         String userId = getUserId();
         String username = getUsername();
         
-        formStudentQuizes = new Form_StudentQuizes(getUserId());
+        formStudentQuizes = new Form_StudentQuizes(getUserId(), getFullName());
         formStudentFeedbacks= new Form_StudentFeedbacks(getUserId());
         formStudentHistory= new Form_StudentHistory(getUserId());
         studentHome = new Form_StudentHome(userId,username,fullName);

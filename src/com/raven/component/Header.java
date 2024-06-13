@@ -17,9 +17,8 @@ public class Header extends javax.swing.JPanel {
 
         jLabel2 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(28, 181, 224));
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setBackground(new java.awt.Color(255, 51, 0));
         jLabel2.setFont(new java.awt.Font("Cantarell", 0, 10)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/close.png"))); // NOI18N
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));

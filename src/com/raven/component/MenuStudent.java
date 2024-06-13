@@ -30,11 +30,11 @@ public class MenuStudent extends javax.swing.JPanel {
     
     // Make a list of menu
     private void init() {
-        listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Quizes", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Feedbacks", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "History", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Logout", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("dashboard", "Dashboard", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("quiz", "Quizes", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("feedbacks", "Feedbacks", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("history", "History", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("logout", "Logout", Model_Menu.MenuType.MENU));
 
     }
 
@@ -50,17 +50,17 @@ public class MenuStudent extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/logo.png"))); // NOI18N
-        jLabel1.setText("Application");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/logo_transparent.png"))); // NOI18N
+        jLabel1.setText("QuizApp");
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
         panelMovingLayout.setHorizontalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovingLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         panelMovingLayout.setVerticalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
