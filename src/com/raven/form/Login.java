@@ -48,13 +48,12 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
-        setPreferredSize(new java.awt.Dimension(800, 500));
 
         Right.setBackground(new java.awt.Color(255, 255, 255));
         Right.setPreferredSize(new java.awt.Dimension(800, 500));
         Right.setLayout(null);
 
-        Left.setBackground(new java.awt.Color(0, 102, 102));
+        Left.setBackground(new java.awt.Color(0, 102, 204));
         Left.setPreferredSize(new java.awt.Dimension(400, 500));
 
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
@@ -75,7 +74,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 500));
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setText("LOGIN");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -86,7 +85,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Password");
 
-        btnLogin.setBackground(new java.awt.Color(0, 102, 102));
+        btnLogin.setBackground(new java.awt.Color(0, 102, 204));
         btnLogin.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");

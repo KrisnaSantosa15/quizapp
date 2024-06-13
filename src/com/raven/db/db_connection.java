@@ -19,7 +19,7 @@ public class db_connection {
         try {
             String url = "jdbc:mysql://localhost/quizapp";
             String user = "root";
-            String pass = "";
+            String pass = "root";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             connection = DriverManager.getConnection(url, user, pass);
             
