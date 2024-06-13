@@ -112,6 +112,12 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(127, 127, 127));
         jLabel4.setText("ID");
 
+        inputId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputIdActionPerformed(evt);
+            }
+        });
+
         btnSearch.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         btnSearch.setText("Search");
         btnSearch.setPreferredSize(new java.awt.Dimension(100, 40));
@@ -139,6 +145,11 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableResult.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableResultMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableResult);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -251,6 +262,31 @@ public class Form_StudentFeedbacks extends javax.swing.JPanel {
         // TODO add your handling code here:
         loadAllData();
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void inputIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputIdActionPerformed
+
+    private void tableResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableResultMouseClicked
+        int selectedRow = tableResult.getSelectedRow(); // Get the index of the selected row
+        if (selectedRow >= 0) { // Ensure a row is selected
+            String feedbackId = tableResult.getValueAt(selectedRow, 0).toString(); // Assuming the first column is the feedback ID
+            try {
+                Connection C = db_connection.ConfigureDatabase();
+                pst = C.prepareStatement("SELECT feedback FROM feedbacks WHERE id=?");
+                pst.setString(1, feedbackId);
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    inputFeedback.setText(rs.getString("feedback")); // Set the feedback text
+                } else {
+                    JOptionPane.showMessageDialog(null, "No Feedback Found!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_tableResultMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
