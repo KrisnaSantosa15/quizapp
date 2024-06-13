@@ -16,6 +16,7 @@ import com.raven.form.Form_Feedbacks;
 import com.raven.form.Login;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  *
@@ -39,6 +40,7 @@ public class Main extends javax.swing.JFrame {
     public String getFullName() {
         return name;
     }
+    
 
     /**
      * Creates new form Main

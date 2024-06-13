@@ -8,11 +8,13 @@ package com.raven.form;
 import com.raven.db.db_connection;
 import com.raven.swing.ComboItem;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.ColorUIResource;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -27,6 +29,11 @@ public class Form_Users extends javax.swing.JPanel {
     public Form_Users() {
         initComponents();
         loadAllData();
+        tableResultUname.getTableHeader().setFont(new Font("Sagoe UI", Font.BOLD, 12));
+        tableResultUname.getTableHeader().setOpaque(false);
+        tableResultUname.getTableHeader().setBackground(new Color(24, 159, 205));
+        tableResultUname.getTableHeader().setForeground(new Color(3, 15, 22));
+        tableResultUname.setRowHeight(25);
     }
     
     PreparedStatement pst;
@@ -72,21 +79,23 @@ public class Form_Users extends javax.swing.JPanel {
         inputRole = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         inputSearch = new javax.swing.JTextField();
-        btnAddAcc = new javax.swing.JButton();
-        btnUpdateAcc = new javax.swing.JButton();
-        btnClearAcc = new javax.swing.JButton();
         panelBorder6 = new com.raven.swing.PanelBorder();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tableResultUname = new javax.swing.JTable();
-        btnDeleteAcc = new javax.swing.JButton();
-        btnSearch = new javax.swing.JButton();
-        btnClearFind = new javax.swing.JButton();
+        btnAdd = new rojerusan.RSMaterialButtonRectangle();
+        btnDeleteAcc = new rojerusan.RSMaterialButtonRectangle();
+        btnUpdateAcc = new rojerusan.RSMaterialButtonRectangle();
+        btnClearAcc = new rojerusan.RSMaterialButtonRectangle();
+        btnSearch = new rojerusan.RSMaterialButtonRectangle();
+        btnClearFind = new rojerusan.RSMaterialButtonRectangle();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 3, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(106, 106, 106));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("CRATE USER ACCOUNT");
+        jLabel1.setText("CREATE USER ACCOUNT");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
@@ -141,30 +150,6 @@ public class Form_Users extends javax.swing.JPanel {
             }
         });
 
-        btnAddAcc.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnAddAcc.setText("ADD");
-        btnAddAcc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddAccActionPerformed(evt);
-            }
-        });
-
-        btnUpdateAcc.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnUpdateAcc.setText("UPDATE");
-        btnUpdateAcc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateAccActionPerformed(evt);
-            }
-        });
-
-        btnClearAcc.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnClearAcc.setText("CLEAR");
-        btnClearAcc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearAccActionPerformed(evt);
-            }
-        });
-
         panelBorder6.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -184,6 +169,9 @@ public class Form_Users extends javax.swing.JPanel {
         ));
         tableResultUname.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableResultUname.setEnabled(false);
+        tableResultUname.setFocusable(false);
+        tableResultUname.setRowHeight(25);
+        tableResultUname.getTableHeader().setReorderingAllowed(false);
         jScrollPane7.setViewportView(tableResultUname);
 
         javax.swing.GroupLayout panelBorder6Layout = new javax.swing.GroupLayout(panelBorder6);
@@ -193,38 +181,58 @@ public class Form_Users extends javax.swing.JPanel {
             .addGroup(panelBorder6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(panelBorder6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addGroup(panelBorder6Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         panelBorder6Layout.setVerticalGroup(
             panelBorder6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        btnDeleteAcc.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnDeleteAcc.setText("DELETE");
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnDeleteAcc.setText("Delete");
         btnDeleteAcc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteAccActionPerformed(evt);
             }
         });
 
-        btnSearch.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnSearch.setText("FIND");
+        btnUpdateAcc.setText("Update");
+        btnUpdateAcc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateAccActionPerformed(evt);
+            }
+        });
+
+        btnClearAcc.setText("Clear");
+        btnClearAcc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAccActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setText("find");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
             }
         });
 
-        btnClearFind.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        btnClearFind.setText("CLEAR");
+        btnClearFind.setText("clear");
         btnClearFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearFindActionPerformed(evt);
@@ -236,48 +244,46 @@ public class Form_Users extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelBorder6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelBorder6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(btnAddAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(inputPass, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(inputUname, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(inputRole, javax.swing.GroupLayout.Alignment.TRAILING, 0, 211, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnUpdateAcc)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnClearAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnDeleteAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5)
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnClearFind, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(11, 11, 11)))))
-                .addContainerGap(89, Short.MAX_VALUE))
+                                .addComponent(btnUpdateAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(inputPass)
+                            .addComponent(inputUname)
+                            .addComponent(inputRole, 0, 211, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(btnClearAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeleteAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)))
+                        .addGap(102, 102, 102)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(inputSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnClearFind, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
+                .addContainerGap(54, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -291,22 +297,23 @@ public class Form_Users extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(inputRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddAcc)
-                            .addComponent(btnUpdateAcc)
-                            .addComponent(btnClearAcc)
-                            .addComponent(btnDeleteAcc))
-                        .addGap(28, 28, 28)
-                        .addComponent(panelBorder6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdateAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnClearAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDeleteAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(inputSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSearch)
-                            .addComponent(btnClearFind))))
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnClearFind, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelBorder6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -319,9 +326,31 @@ public class Form_Users extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputUnameActionPerformed
 
-    private void btnAddAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAccActionPerformed
+    private void inputSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSearchActionPerformed
         // TODO add your handling code here:
-         // Input Validation
+    }//GEN-LAST:event_inputSearchActionPerformed
+
+    private void inputSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusLost
+        // TODO add your handling code here:
+        if (inputSearch.getText().isEmpty()) {
+            inputSearch.setText("Input account id");
+            inputSearch.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_inputSearchFocusLost
+
+    private void inputSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusGained
+        // TODO add your handling code here:
+        if (inputSearch.getText().equals("Input account id")) {
+            inputSearch.setText("");
+            inputSearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_inputSearchFocusGained
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        {                                          
+        // TODO add your handling code here:
+        // Input Validation
         if(inputUname.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Username is Required!");
         } else if(inputPass.getText().isEmpty()){
@@ -355,10 +384,44 @@ public class Form_Users extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
-    }//GEN-LAST:event_btnAddAccActionPerformed
+    }                                         
+
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAccActionPerformed
+        // TODO add your handling code here:
+        if(inputSearch.getText().equals("Input account id")){
+            JOptionPane.showMessageDialog(null, "Please find your account id first!");
+        } else {
+            String accId = inputSearch.getText();
+        
+            // Tampilkan dialog konfirmasi
+            int response = JOptionPane.showConfirmDialog(null, "Are you sure to delete this data?", "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(response == JOptionPane.YES_OPTION){
+                try {
+                Connection C = db_connection.ConfigureDatabase();
+                pst = C.prepareStatement("DELETE FROM users WHERE id=?");
+                pst.setString(1, accId);
+
+                int k = pst.executeUpdate();
+
+                    if(k==1){
+                        JOptionPane.showMessageDialog(null, "Item Deleted Successfuly!");
+                        inputBersih();
+                        loadAllData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "An Error Occured, Item Not Deleted!");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDeleteAccActionPerformed
 
     private void btnUpdateAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAccActionPerformed
         // TODO add your handling code here:
+        
         if(inputUname.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Username is Required!");
         } else if(inputPass.getText().isEmpty()){
@@ -402,40 +465,9 @@ public class Form_Users extends javax.swing.JPanel {
         inputBersih();
     }//GEN-LAST:event_btnClearAccActionPerformed
 
-    private void btnDeleteAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAccActionPerformed
-        // TODO add your handling code here:
-        if(inputSearch.getText().equals("Input account id")){
-            JOptionPane.showMessageDialog(null, "Please find your account id first!");
-        } else {
-            String accId = inputSearch.getText();
-        
-            // Tampilkan dialog konfirmasi
-            int response = JOptionPane.showConfirmDialog(null, "Are you sure to delete this data?", "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if(response == JOptionPane.YES_OPTION){
-                try {
-                Connection C = db_connection.ConfigureDatabase();
-                pst = C.prepareStatement("DELETE FROM users WHERE id=?");
-                pst.setString(1, accId);
-
-                int k = pst.executeUpdate();
-
-                    if(k==1){
-                        JOptionPane.showMessageDialog(null, "Item Deleted Successfuly!");
-                        inputBersih();
-                        loadAllData();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "An Error Occured, Item Not Deleted!");
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            }
-        }
-    }//GEN-LAST:event_btnDeleteAccActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        inputBersih();
+         inputBersih();
         if(inputSearch.getText().equals("Input account id")){
             JOptionPane.showMessageDialog(null, "Please input account id!");
         } else {
@@ -469,34 +501,14 @@ public class Form_Users extends javax.swing.JPanel {
         inputSearch.setText("Input account id");
     }//GEN-LAST:event_btnClearFindActionPerformed
 
-    private void inputSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputSearchActionPerformed
-
-    private void inputSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusLost
-        // TODO add your handling code here:
-        if (inputSearch.getText().isEmpty()) {
-            inputSearch.setText("Input account id");
-            inputSearch.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_inputSearchFocusLost
-
-    private void inputSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputSearchFocusGained
-        // TODO add your handling code here:
-        if (inputSearch.getText().equals("Input account id")) {
-            inputSearch.setText("");
-            inputSearch.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_inputSearchFocusGained
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddAcc;
-    private javax.swing.JButton btnClearAcc;
-    private javax.swing.JButton btnClearFind;
-    private javax.swing.JButton btnDeleteAcc;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnUpdateAcc;
+    private rojerusan.RSMaterialButtonRectangle btnAdd;
+    private rojerusan.RSMaterialButtonRectangle btnClearAcc;
+    private rojerusan.RSMaterialButtonRectangle btnClearFind;
+    private rojerusan.RSMaterialButtonRectangle btnDeleteAcc;
+    private rojerusan.RSMaterialButtonRectangle btnSearch;
+    private rojerusan.RSMaterialButtonRectangle btnUpdateAcc;
     private javax.swing.JTextField inputPass;
     private javax.swing.JComboBox<String> inputRole;
     private javax.swing.JTextField inputSearch;
